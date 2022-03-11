@@ -26,6 +26,7 @@ if __name__ == '__main__':
     parser.add_argument('--media_type', type=str, default='')
     parser.add_argument('--data_type', type=str, default='', choices=['image','text', 'audio', 'pdf'])
     parser.add_argument('--speciic_format', type=str, default='')
+    parser.add_argument('--glob_pattern', type=str, default='', help='Search for a specific extension using a glob pattern, i.e.: "*.png"')
 
     args = parser.parse_args()
 
@@ -45,7 +46,9 @@ if __name__ == '__main__':
     if args.identifier != '':
         search_str += f'identifier:{args.identifier} '
     if args.creator != '':
-        search_str += f'creator:{args.creator} '    
+        search_str += f'creator:{args.creator} '
+    if args.glob_pattern != '':
+        search_str += f'glob_pattern:{args.glob_pattern} '       
 
     if args.data_type == 'image':
         format_list.extend(['JPEG','PNG'])
