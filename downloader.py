@@ -1,11 +1,24 @@
 from internetarchive import search_items, download
 import argparse
 
+def search_and_download_items(search_str, format_list):
+    items = search_items(search_str)
+    if len(items) == 0:
+        print(f'The parameters of your search using search string: "{search_str}" found no results!')
+
+    for item in items.iter_as_items():
+        try:
+            download(item.identifier, verbose=True, formats=format_list)
+        except Exception as e:
+            print("Skipping " + item.identifier + " due to an exception")
+    
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
 
     parser.add_argument('--collection', type=str, default='')
     parser.add_argument('--year', type=str, default='')
+    parser.add_argument('--year_range',type=str, default='',help='A range of years, must be in the format 1900-1999')
     parser.add_argument('--language', type=str, default='')
     parser.add_argument('--subject', type=str, default='')
     parser.add_argument('--identifier', type=str, default='')
@@ -21,7 +34,7 @@ if __name__ == '__main__':
 
     if args.collection != '':
         search_str += f'collection:{args.collection} '
-    if args.year != '':
+    if args.year != '' and args.year_range == '':
         search_str += f'year:{args.year} '
     if args.language != '':
         search_str += f'language:{args.language} '
@@ -45,14 +58,13 @@ if __name__ == '__main__':
 
     if args.speciic_format != '':
         format_list.append(args.speciic_format)
+    
+    if args.year_range == '':
+        search_and_download_items(search_str, format_list)
+    else:
+        start_year, end_year = args.year_range.split('-')
+        for year in range(int(start_year),int(end_year)):
+            s_str = search_str + f'year:{year} '
+            search_and_download_items(s_str, format_list) 
 
-    search_items = search_items(search_str)
-    if len(search_items) == 0:
-        print('The parameters of your search found no results!')
-    
-    for item in search_items.iter_as_items():
-        try:
-            download(item.identifier, verbose=True, formats=format_list)
-        except Exception as e:
-            print("Skipping " + item.identifier + " due to an exception")
-    
+
