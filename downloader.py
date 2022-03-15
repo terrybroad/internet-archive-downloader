@@ -24,7 +24,7 @@ if __name__ == '__main__':
     parser.add_argument('--identifier', type=str, default='')
     parser.add_argument('--creator', type=str, default='')
     parser.add_argument('--media_type', type=str, default='')
-    parser.add_argument('--data_type', type=str, default='', choices=['image','text', 'audio', 'pdf'])
+    parser.add_argument('--data_type', type=str, default='', choices=['image', 'text', 'audio', 'pdf'])
     parser.add_argument('--speciic_format', type=str, default='')
     parser.add_argument('--glob_pattern', type=str, default='', help='Search for a specific extension using a glob pattern, i.e.: "*.png"')
 
