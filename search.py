@@ -11,6 +11,7 @@ if __name__ == '__main__':
     parser.add_argument('--subject', type=str, default='')
     parser.add_argument('--identifier', type=str, default='')
     parser.add_argument('--creator', type=str, default='')
+    parser.add_argument('--media_type', type=str, default='')
     parser.add_argument('--verbose', type=bool, default=False)
 
     args = parser.parse_args()
@@ -30,6 +31,8 @@ if __name__ == '__main__':
         search_str += f'identifier:{args.identifier} '
     if args.creator != '':
         search_str += f'creator:{args.creator} '   
+    if args.media_type != '':
+        search_str += f'mediatype:{args.media_type} '
     
     item_list = []
     if args.year_range == '':
